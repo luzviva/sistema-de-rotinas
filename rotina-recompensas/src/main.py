@@ -61,7 +61,6 @@ def create_app(config_name=None):
         # Criar configurações padrão se não existirem
         if not Settings.query.first():
             default_settings = Settings(
-                child_name="Criança",
                 daily_goal=5,
                 reward_multiplier=1.0,
                 theme="default"
