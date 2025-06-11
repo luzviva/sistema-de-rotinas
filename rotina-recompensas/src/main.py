@@ -57,17 +57,7 @@ def create_app(config_name=None):
     # Criar tabelas no contexto da aplicação
     with app.app_context():
         db.create_all()
-        
-        # Criar configurações padrão se não existirem
-        if not Settings.query.first():
-            default_settings = Settings(
-                daily_goal=5,
-                reward_multiplier=1.0,
-                theme="default"
-            )
-            db.session.add(default_settings)
-            db.session.commit()
-    
+           
     return app
 
 # Criar a aplicação
