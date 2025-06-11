@@ -7,6 +7,7 @@ from flask import Flask, jsonify
 from flask_cors import CORS
 from config import config
 from extensions import db # <-- Nova importação aqui
+from models.task import db
 # Inicialização das extensões
 
 def create_app(config_name=None):
@@ -20,13 +21,13 @@ def create_app(config_name=None):
     # Inicializar extensões
     db.init_app(app)
     CORS(app, origins=app.config['CORS_ORIGINS'])
-    
-    # Importar modelos
-    from models.task import Task, Reward, Settings
-    
+         
     # Importar e registrar blueprints
     from routes.task import task_bp
     app.register_blueprint(task_bp, url_prefix='/api')
+    
+     # Importar modelos
+    from models.task import Task, Reward, Settings
     
     # Rota de health check
     @app.route('/health')
