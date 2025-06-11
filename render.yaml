@@ -1,0 +1,28 @@
+services:
+  - type: web
+    name: sistema-rotina-backend
+    env: python
+    region: oregon
+    plan: free
+    buildCommand: cd rotina-recompensas && pip install -r requirements.txt
+    startCommand: cd rotina-recompensas/src && gunicorn main:app --bind 0.0.0.0:$PORT --workers 2 --timeout 120
+    healthCheckPath: /health
+    envVars:
+      - key: FLASK_ENV
+        value: production
+      - key: HOST
+        value: 0.0.0.0
+      - key: TIMEZONE
+        value: America/Sao_Paulo
+      - key: SECRET_KEY
+        generateValue: true
+      - key: CORS_ORIGINS
+        value: https://SEU_USUARIO.github.io/sistema-rotina-recompensas
+
+databases:
+  - name: sistema-rotina-db
+    databaseName: rotina_db
+    user: rotina_user
+    region: oregon
+    plan: free
+
