@@ -4,12 +4,10 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from flask import Flask, jsonify
-from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from config import config
-
+from extensions import db # <-- Nova importação aqui
 # Inicialização das extensões
-db = SQLAlchemy()
 
 def create_app(config_name=None):
     """Factory function para criar a aplicação Flask"""
