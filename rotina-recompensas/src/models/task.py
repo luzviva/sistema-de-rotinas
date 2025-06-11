@@ -1,7 +1,7 @@
 from extensions import db
 from datetime import datetime
 from enum import Enum
-
+from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 
 class TaskStatus(Enum):
