@@ -1,7 +1,13 @@
 from flask import Blueprint, request, jsonify
-from datetime import datetime, date, time
-from src.models.task import db, Task, Reward, Settings, TaskStatus, TaskCategory
 from sqlalchemy import and_, or_
+from sqlalchemy.exc import IntegrityError
+from datetime import datetime, date, time, timedelta # Mantive 'date' e 'time' pois são usados no restante do código
+import pytz
+import os
+
+# Alterações solicitadas aplicadas aqui:
+from src.models.task import Task, Reward, Settings, TaskStatus, TaskCategory
+from src.extensions import db # <-- Nova importação aqui
 
 task_bp = Blueprint('task', __name__)
 
@@ -351,4 +357,3 @@ def create_or_update_setting():
     except Exception as e:
         db.session.rollback()
         return jsonify({'error': str(e)}), 500
-
