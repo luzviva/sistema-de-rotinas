@@ -9,48 +9,50 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    
+    # Define PYTHONPATH para que o Python encontre o módulo 'src'
+    env:
+      PYTHONPATH: ${{ github.workspace }}/rotina-recompensas
+
     steps:
     - name: Checkout
       uses: actions/checkout@v4
-      
+
     - name: Setup Python
       uses: actions/setup-python@v4
       with:
         python-version: '3.11'
-        
+
     - name: Install dependencies
       run: |
         cd rotina-recompensas
         python -m pip install --upgrade pip
         pip install -r requirements.txt
-        
+
     - name: Run basic tests
       run: |
-        cd rotina-recompensas/src
-        python -c "import main; print('Backend imports successfully')"
-        
+        # Não é mais necessário 'cd src' pois PYTHONPATH está configurado
+        python -c "import src.main; print('Backend imports successfully')"
+
     - name: Validate configuration
       run: |
-        cd rotina-recompensas/src
-        python -c "from config import config; print('Configuration loaded successfully')"
-        
+        # Não é mais necessário 'cd src' pois PYTHONPATH está configurado
+        python -c "from src.config import config; print('Configuration loaded successfully')"
+
   deploy:
     runs-on: ubuntu-latest
     needs: test
     if: github.ref == 'refs/heads/main'
-    
+
     steps:
     - name: Checkout
       uses: actions/checkout@v4
-        
+
     - name: Deploy notification
       run: |
         echo "✅ Backend tests passed!"
         echo "🚀 Ready for deployment to Render"
         echo "📝 Manual deployment required on Render dashboard"
         echo "🔗 Visit: https://dashboard.render.com"
-        
+
     # Nota: Render faz deploy automático quando conectado ao GitHub
     # Este workflow serve principalmente para validação
-
